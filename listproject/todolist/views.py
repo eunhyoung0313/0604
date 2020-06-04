@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
-from .models import Todolist, Comment
+from .models import Todolist, Comment, Post
 from django.contrib.auth.models import User
 from django.contrib import auth
 from django.contrib.auth.decorators import login_required
+from .utils import upload_and_save
 
 def home(request):
     posts= Todolist.objects.all().order_by('duedate')
@@ -17,6 +18,8 @@ def new(request):
          duedate=request.POST['duedate'],
          author = request.user
      )
+     file_to_upload = request.FILES.get('img')
+     upload_and_save(request, file_to_upload)
      return redirect('detail',post_pk=new_list.pk)
     else:
      return render(request,'new.html')
@@ -28,6 +31,7 @@ def mypage(request):
 
 def detail(request, post_pk):
     chosen_list= Todolist.objects.get(pk= post_pk)
+    posts= Post.objects.all()
     if request.method=="POST":
         Comment.objects.create(
             post = chosen_list,
@@ -35,7 +39,7 @@ def detail(request, post_pk):
             author= request.user
         )
         return redirect('detail', post_pk)
-    return render (request, 'detail.html',{'chosen_list':chosen_list})
+    return render (request, 'detail.html',{'chosen_list':chosen_list, 'posts':posts})
 
 def delete_comment(request, post_pk, comment_pk):
     comment= Comment.objects.get(pk= comment_pk)

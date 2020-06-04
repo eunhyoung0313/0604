@@ -10,10 +10,13 @@
     <body>
         {% block content %}
         <div class="total_wrapper">
-            <form method="POST">
+            <form method="POST" enctype="multipart/form-data">
                 {%csrf_token%}
                 <div class="wrapper_h1">
                     <h1>Add Scedule</h1>
+                </div>
+                <div class="center">
+                    <input class="input_img" type ="file" name="img" placeholder="이미지 업로드">
                 </div>
                 <div class="center">
                     <input class="input_title" name="title" placeholder="제목을 입력하세요">

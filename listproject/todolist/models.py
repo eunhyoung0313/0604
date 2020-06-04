@@ -17,4 +17,7 @@ class Comment(models.Model):
 
     def __str__(self):
         return self.post
+
+class Post(models.Model):
+    img = models.TextField()
 # Create your models here.

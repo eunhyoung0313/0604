@@ -25,9 +25,11 @@ h1{ width:60%;
     display: flex;
     justify-content: center;
     align-items: center;
+    flex-direction: column;
     width: 90%;
 
 }
+img{width: 120px;}
 p{  width:10%;
     font-weight: bold;
     display: flex;

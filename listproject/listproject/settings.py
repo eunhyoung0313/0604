@@ -10,10 +10,14 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
-import os
+import os, json
+
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+with open(os.path.join(BASE_DIR, 'listproject/config/index.json')) as f:
+    secrets = json.loads(f.read())
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+
 
 
 # Quick-start development settings - unsuitable for production
@@ -44,6 +48,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.kakao',
     'allauth.socialaccount.providers.google',
+    'storages'
 ]
 AUTHENTICATION_BACKENDS = (    
      'django.contrib.auth.backends.ModelBackend',  
@@ -131,3 +136,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+DEFAULT_FILE_STORAGE ='storages.backends.s3boto3.S3Boto3Storage'
+
+AWS_ACCESS_KEY_ID =secrets['AWS']['AWS_ACCESS_KEY']
+AWS_SECRET_ACCESS_KEY =  secrets['AWS']['SECRET_ACCESS_KEY']
+AWS_STORAGE_BUCKET_NAME = secrets['AWS']['STORAGE_BUCKET_NAME']
+AWS_S3_REGION_NAME = 'ap-northeast-2'
+AWS_S3_FILE_OVERWRITE = False
